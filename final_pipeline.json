@@ -1,0 +1,27 @@
+{
+  "id": "E10",
+  "baseline": {
+    "intensity": "raw",
+    "filter": "none",
+    "segment": "otsu",
+    "morph": "",
+    "kernel": 3,
+    "area": 0,
+    "split": 0,
+    "threshold": 35,
+    "adaptive_block": 101,
+    "adaptive_c": -3
+  },
+  "final": {
+    "intensity": "raw",
+    "filter": "g5",
+    "segment": "adaptive",
+    "morph": "",
+    "kernel": 3,
+    "area": 100,
+    "split": 0,
+    "threshold": 35,
+    "adaptive_block": 101,
+    "adaptive_c": -3
+  }
+}
