@@ -99,13 +99,23 @@ def generate(dataset, out):
     for i, ax in enumerate(axes, 1):
         subset = [r for r in results if int(r["block"]) == i]
         x = [int(r["frame"]) for r in subset]
+        baseline_axis = ax.twinx()
+        baseline_axis.set_ylim(1600, 2200)
         for column, title, color, marker in [
             ("reference","Referans","#252e3d","o"),("baseline","Baseline","#c15932","s"),("final","Nihai","#007e85","^")]:
-            ax.plot(x, [int(r[column]) for r in subset], label=title, color=color, marker=marker)
+            target = baseline_axis if column == "baseline" else ax
+            target.plot(x, [int(r[column]) for r in subset], label=title, color=color, marker=marker)
         ax.set(title=f"Blok {i}", xlabel="Kare numarası", xticks=x)
+        ax.set_ylim(20, 42)
+        baseline_axis.tick_params(axis="y", colors="#c15932", labelright=i == 3)
+        if i == 3:
+            baseline_axis.set_ylabel("Baseline sayısı", color="#c15932")
+            left, left_labels = ax.get_legend_handles_labels()
+            right, right_labels = baseline_axis.get_legend_handles_labels()
+            ax.legend(left + right, left_labels + right_labels, loc="upper left", fontsize=7)
         ax.grid(alpha=.2)
     axes[0].set_ylabel("Hücre sayısı")
-    axes[-1].legend(loc="best", fontsize=8)
+
     save(fig, out, "temporal_counts")
 
     fig, ax = plt.subplots(figsize=(10, 1.9))
@@ -129,4 +139,5 @@ if __name__ == "__main__":
     parser.add_argument("output")
     args = parser.parse_args()
     generate(args.dataset, args.output)
+
 
